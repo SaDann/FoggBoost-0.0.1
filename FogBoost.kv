@@ -1,0 +1,134 @@
+#:kivy 2.0.0
+#:import os os
+#:import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+<WindowManager>:
+    transition: FadeTransition()
+    Menu:
+        name: "menu"
+    Options:
+        name: "options"
+    Function:
+        name: "function"
+
+<Menu>:
+    canvas.before:
+        Color:
+            rgba: 1,1,1,1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'config/backgroundmenu.png'
+    BoxLayout:
+        pos_hint: {'y': .1, 'center_x': .5}
+        size_hint: .6, .2
+        ImageButton:
+            id: options
+            source: "config/buttons/stpress.png"
+            size: 182, 35
+            on_press:
+                self.source = "config/buttons/strelease.png"
+            on_release:
+                self.source = "config/buttons/stpress.png"
+                app.root.current = "function"
+        ImageButton:
+            id: start
+            source: "config/buttons/optpress.png"
+            size: 182, 35
+            on_press:
+                self.source = "config/buttons/optrelease.png"
+            on_release:
+                self.source = "config/buttons/optpress.png"
+                app.root.current = "options"
+
+<Options>:
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'config/options.png'
+    ImageButton:
+        id: menu
+        source: "config/buttons/1.png"
+        size: 91, 17
+        on_press:
+            self.source = "config/buttons/1.png"
+        on_release:
+            self.source = "config/buttons/1.png"
+            app.root.current = "menu"
+
+<Function>:
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'config/background.png'
+    BoxLayout:
+        Widget:
+        BoxLayout:
+            orientation: 'vertical'
+            ImageButton:
+                id: disk
+                pos: self.pos
+                size: self.size
+                pos: 0, 80
+                source: "config/buttons/diskrelease.png"
+                on_press:
+                    os.system('cmd /c "cleanmgr.exe"')
+                    self.source = "config/buttons/diskpress.png"
+                on_release:
+                    self.source = "config/buttons/diskrelease.png"
+
+            ImageButton:
+                id: temp
+                source: "config/buttons/temprelease.png"
+                pos: 167, 40
+                size: 182, 35
+                on_press:
+                    os.system('cmd /c "del /q/f/s %temp%\* "')
+                    self.source = "config/buttons/temppress.png"
+                on_release:
+                    self.source = "config/buttons/temprelease.png"
+
+            ImageButton:
+                id: ram
+                source: "config/buttons/ramrelease.png"
+                pos: 167, 0
+                size: 182, 35
+                on_press:
+                    os.system('cmd /c "Fsutil behavior set memoryusage 2"')
+                    self.source = "config/buttons/rampress.png"
+                on_release:
+                    self.source = "config/buttons/ramrelease.png"
+
+            ImageButton:
+                id: dinamy
+                source: "config/buttons/dinamycrelease.png"
+                pos: 167, -40
+                size: 182, 35
+                on_press:
+                    os.system('cmd /c "bcdedit /set disabledynamictick yes"')
+                    self.source = "config/buttons/dinamypress.png"     
+
+            ImageButton:
+                id: plat
+                source: "config/buttons/platrelease.png"
+                pos: 167, -80
+                size: 182, 35
+                on_press:
+                    ('cmd /c "bcdedit /set useplatformtick yes"')
+                    self.source = "config/buttons/platpress.png"
+
+            ImageButton:
+                id: back
+                source: "config/buttons/brelease.png"
+                size: 172, 25
+                on_press:
+                    self.source = "config/buttons/bpress.png"
+                on_release:
+                    self.source = "config/buttons/brelease.png"
+                    app.root.current = "menu"
